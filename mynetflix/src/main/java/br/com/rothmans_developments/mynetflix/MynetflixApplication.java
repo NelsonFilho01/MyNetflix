@@ -1,6 +1,6 @@
 package br.com.rothmans_developments.mynetflix;
 
-import br.com.rothmans_developments.mynetflix.main.Principal;
+import br.com.rothmans_developments.mynetflix.menu.MenuManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +16,7 @@ public class MynetflixApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-	Principal principal = new Principal();
+	MenuManager principal = new MenuManager();
 	principal.exibeMenu();
 
 	//	// --> Testando ele
