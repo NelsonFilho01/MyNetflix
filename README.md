@@ -5,4 +5,6 @@
 
 - Java 17
 - Spring Framework
+- Jackson
+- PostgreSQL
 - Maven
