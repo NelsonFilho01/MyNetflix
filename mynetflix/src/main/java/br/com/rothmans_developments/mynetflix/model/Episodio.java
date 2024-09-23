@@ -1,6 +1,4 @@
 package br.com.rothmans_developments.mynetflix.model;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -82,7 +80,7 @@ public class Episodio {
                 ", titulo = '" + titulo + '\'' +
                 ", numeroEpisodio = '" + numeroEpisodio +
                 ", avaliacao = '" + avaliacao + '\'' +
-                ", dataLancamento = " + dataLancamento;
+                ", dataLancamento = " + dataLancamento + "\n";
 
     }
 }

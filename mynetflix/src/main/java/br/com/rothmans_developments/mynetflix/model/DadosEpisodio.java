@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record DadosEpisodio(
+public record   DadosEpisodio(
         @JsonAlias("Title")
         String titulo,
 

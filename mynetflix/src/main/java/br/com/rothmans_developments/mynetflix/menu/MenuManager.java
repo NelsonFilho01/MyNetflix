@@ -25,41 +25,53 @@ public class MenuManager {
     //SIM TO BOTANDO A CHAVE DIRETAMENTE NO CODICO, SIM SEI QUE NÃO É BACANA
     private final String API_KEY = "&apikey=6585022c";
 
+    private List<DadosSerie> dadosSeries = new ArrayList<>();
 
 
-    public void exibeMenu(){
+    public void exibeMenu() {
+        var opcao = -1;
+        while (opcao != 0) {
+            var menu = """
+                    |-----------------------|
+                    | 1 - Buscar Serie      |
+                    | 2 - Buscar Episodio   |
+                    | 3-  Listar Series     |
+                    |                       |
+                    |                       |
+                    | 0 - Sair ...          |
+                    |-----------------------|
+                    """;
 
-        var menu = """
-                1 - Buscar Serie
-                2 - Buscar Episodio
-                
-                0 - Sair ...
-                """;
+            System.out.println(menu);
 
-        System.out.println(menu);
+            opcao = leitura.nextInt();
+            leitura.nextLine();
 
-        var opcao = leitura.nextInt();
-        leitura.nextLine();
+            switch (opcao) {
+                case 1:
+                    buscarSerie();
+                    break;
+                case 2:
+                    buscarEpisodio();
+                    break;
+                 case 3:
+                    listarSeriesBuscadas();
+                case 0:
+                    System.out.println("Saindo ...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
 
-        switch(opcao){
-            case 1:
-                buscarSerie();
-                break;
-            case 2:
-                buscarEpisodio();
-                break;
-            case 0:
-                System.out.println("Saindo ...");
-                break;
-            default:
-                System.out.println("Opção inválida!");
         }
-
     }
+
+
 
     private void buscarEpisodio() {
         DadosSerie dadosSerie = getDadosSerie();
         List<DadosTemporada> temporadas = new ArrayList<>();
+
 
         for (int i = 1; i <= dadosSerie.totalTemporadas(); i++){
             var json = consumoApi.obterDados(
@@ -68,13 +80,16 @@ public class MenuManager {
             DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
             temporadas.add(dadosTemporada);
 
-        }
 
+
+        }
+        dadosSeries.add(dadosSerie);
         temporadas.forEach(System.out::println);
     }
 
     private void buscarSerie(){
         DadosSerie dados = getDadosSerie();
+        dadosSeries.add(dados);
         System.out.println(dados);
     }
 
@@ -88,5 +103,8 @@ public class MenuManager {
         return dados;
     }
 
+    private void listarSeriesBuscadas() {
+        dadosSeries.forEach(System.out::println);
+    }
 
 }
