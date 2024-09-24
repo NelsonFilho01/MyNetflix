@@ -1,8 +1,10 @@
 package br.com.rothmans_developments.mynetflix.menu;
 
 import br.com.rothmans_developments.mynetflix.model.*;
+import br.com.rothmans_developments.mynetflix.repository.SerieRepository;
 import br.com.rothmans_developments.mynetflix.service.ConsumoApi;
 import br.com.rothmans_developments.mynetflix.service.ConverteDados;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +25,12 @@ public class MenuManager {
     private final String API_KEY = "&apikey=6585022c";
 
     private List<DadosSerie> dadosSeries = new ArrayList<>();
+
+    private SerieRepository repositorioSerie;
+
+    public MenuManager(SerieRepository repositorioSerie) {
+        this.repositorioSerie = repositorioSerie;
+    }
 
 
     public void exibeMenu() {
@@ -86,7 +94,9 @@ public class MenuManager {
 
     private void buscarSerie(){
         DadosSerie dados = getDadosSerie();
-        dadosSeries.add(dados);
+        Serie serie = new Serie(dados);
+        //dadosSeries.add(dados);
+        repositorioSerie.save(serie);
         System.out.println(dados);
     }
 
@@ -101,9 +111,7 @@ public class MenuManager {
     }
 
     private void listarSeriesBuscadas() {
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                .map(n -> new Serie(n)).collect(Collectors.toList());
+        List<Serie> series = repositorioSerie.findAll();
         series.stream().sorted(Comparator.comparing(Serie::getTitulo))
                 .forEach(System.out::println);
     }

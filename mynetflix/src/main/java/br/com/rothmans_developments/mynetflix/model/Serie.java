@@ -1,7 +1,7 @@
 package br.com.rothmans_developments.mynetflix.model;
+
 import br.com.rothmans_developments.mynetflix.service.ConsomeGPT;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
@@ -33,7 +33,7 @@ public class Serie {
     private List<Episodio> episodios = new ArrayList<>();
 
 
-    public Serie() {}
+    public Serie(){}
     public Serie(DadosSerie dadosSerie) {
         this.titulo = dadosSerie.titulo();
         this.totalTemporadas = dadosSerie.totalTemporadas();
