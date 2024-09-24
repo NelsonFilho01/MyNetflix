@@ -1,9 +1,6 @@
 package br.com.rothmans_developments.mynetflix.menu;
 
-import br.com.rothmans_developments.mynetflix.model.DadosEpisodio;
-import br.com.rothmans_developments.mynetflix.model.DadosSerie;
-import br.com.rothmans_developments.mynetflix.model.DadosTemporada;
-import br.com.rothmans_developments.mynetflix.model.Episodio;
+import br.com.rothmans_developments.mynetflix.model.*;
 import br.com.rothmans_developments.mynetflix.service.ConsumoApi;
 import br.com.rothmans_developments.mynetflix.service.ConverteDados;
 
@@ -104,7 +101,13 @@ public class MenuManager {
     }
 
     private void listarSeriesBuscadas() {
-        dadosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = dadosSeries.stream()
+                .map(n -> new Serie(n)).collect(Collectors.toList());
+        series.stream().sorted(Comparator.comparing(Serie::getTitulo))
+                .forEach(System.out::println);
     }
+
+
 
 }

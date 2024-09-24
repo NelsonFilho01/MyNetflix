@@ -7,17 +7,13 @@ import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record   DadosEpisodio(
-        @JsonAlias("Title")
-        String titulo,
+        @JsonAlias("Title")  String titulo,
 
-        @JsonAlias("Episode")
-        Integer numeroEpisodio,
+        @JsonAlias("Episode")  Integer numeroEpisodio,
 
-        @JsonAlias("imdbRating")
-        String avaliacao,
+        @JsonAlias("imdbRating")  String avaliacao,
 
-        @JsonAlias("Released")
-        String dataLancamento
+        @JsonAlias("Released")  String dataLancamento
 )
 {
 }
