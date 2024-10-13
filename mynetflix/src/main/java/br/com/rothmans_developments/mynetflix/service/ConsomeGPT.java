@@ -5,8 +5,13 @@ import com.theokanning.openai.service.OpenAiService;
 
 public class ConsomeGPT {
     public static String obterTraducao(String texto) {
+        String token = System.getenv("GPT_TOKEN");
 
-        OpenAiService service = new OpenAiService("Segredo");
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("OpenAI token não encontrado. Certifique-se de que a variável de ambiente GPT_TOKEN está definida.");
+        }
+
+        OpenAiService service = new OpenAiService(token);
 
         CompletionRequest requisicao = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")

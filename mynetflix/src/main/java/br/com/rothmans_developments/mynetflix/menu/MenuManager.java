@@ -21,7 +21,7 @@ public class MenuManager {
 
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
 
-    //SIM TO BOTANDO A CHAVE DIRETAMENTE NO CODICO, SIM SEI QUE NÃO É BACANA
+    //Essa chave nem minha é
     private final String API_KEY = "&apikey=6585022c";
 
     private List<DadosSerie> dadosSeries = new ArrayList<>();
