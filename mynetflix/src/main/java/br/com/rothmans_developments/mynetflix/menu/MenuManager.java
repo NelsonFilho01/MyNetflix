@@ -39,14 +39,15 @@ public class MenuManager {
         var opcao = -1;
         while (opcao != 0) {
             var menu = """
-                    |-----------------------|
-                    | 1 - Buscar Serie      |
-                    | 2 - Buscar Episodio   |
-                    | 3-  Listar Series     |
-                    |                       |
-                    |                       |
-                    | 0 - Sair ...          |
-                    |-----------------------|
+                    |---------------------------------|
+                    | 1 - Buscar Serie                |
+                    | 2 - Buscar Episodio             |
+                    | 3-  Listar Series               |
+                    | 4- Buscar seria por titulo      |
+                    |                                 |
+                    |                                 |
+                    | 0 - Sair ...                    |
+                    |---------------------------------|
                     """;
 
             System.out.println(menu);
@@ -63,6 +64,10 @@ public class MenuManager {
                     break;
                  case 3:
                     listarSeriesBuscadas();
+                    break;
+                case 4:
+                    buscarSeriePorTitulo();
+                    break;
                 case 0:
                     System.out.println("Saindo ...");
                     break;
@@ -85,9 +90,6 @@ public class MenuManager {
                 .findFirst();
 
         if(serie.isPresent()) {
-
-
-
 
         var serieEncontrada = serie.get();
         List<DadosTemporada> temporadas = new ArrayList<>();
@@ -141,6 +143,18 @@ public class MenuManager {
                 .forEach(System.out::println);
     }
 
+    private void buscarSeriePorTitulo() {
+        System.out.println("Escolha uma série pelo nome: ");
+        var nomeSerie = leitura.nextLine();
+        Optional<Serie> serieBuscada = repositorioSerie.findByTituloContainsIgnoreCase(nomeSerie);
+        if(serieBuscada.isPresent()) {
+            System.out.println("Dados serie: " + serieBuscada.get());
+        }else{
+            System.out.println("Serie não encontrada");
+        }
+
+
+    }
 
 
 }
