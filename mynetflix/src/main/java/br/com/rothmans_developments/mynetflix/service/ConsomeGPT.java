@@ -5,7 +5,7 @@ import com.theokanning.openai.service.OpenAiService;
 
 public class ConsomeGPT {
     public static String obterTraducao(String texto) {
-        String token = System.getenv("GPT_TOKEN");
+        String token = System.getenv("DGPT_TOKEN");
 
         if (token == null || token.isEmpty()) {
             throw new IllegalArgumentException("OpenAI token não encontrado. Certifique-se de que a variável de ambiente GPT_TOKEN está definida.");

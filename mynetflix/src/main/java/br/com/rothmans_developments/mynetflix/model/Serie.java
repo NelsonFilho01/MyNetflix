@@ -29,7 +29,7 @@ public class Serie {
 
     private String enredo;
 
-    @Transient
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios = new ArrayList<>();
 
 
