@@ -26,6 +26,7 @@ public class Episodio {
     @ManyToOne
     private Serie serie;
 
+    public Episodio() {}
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio){
         this.temporada = numeroTemporada;
         this.titulo = dadosEpisodio.titulo();
@@ -91,6 +92,15 @@ public class Episodio {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
+
 
     public void setDataLancamento(LocalDate dataLancamento) {
         this.dataLancamento = dataLancamento;
