@@ -38,18 +38,25 @@ public class MenuManager {
     public void exibeMenu() {
         var opcao = -1;
         while (opcao != 0) {
+
             var menu = """
                     |---------------------------------|
                     | 1 - Buscar Serie                |
                     | 2 - Buscar Episodio             |
                     | 3-  Listar Series               |
-                    | 4- Buscar seria por titulo      |
+                    | 4 - Buscar Seria por titulo     |
+                    | 5 - Buscar Serie por Ator       |
+                    |                                 |
+                    |                                 |
+                    |                                 |
                     |                                 |
                     |                                 |
                     | 0 - Sair ...                    |
                     |---------------------------------|
                     """;
 
+
+            buscarTop5Series();
             System.out.println(menu);
 
             opcao = leitura.nextInt();
@@ -68,16 +75,17 @@ public class MenuManager {
                 case 4:
                     buscarSeriePorTitulo();
                     break;
+                case 5:
+                    buscarSeriePorAtor();
+                    break;
                 case 0:
                     System.out.println("Saindo ...");
                     break;
                 default:
                     System.out.println("Opção inválida!");
             }
-
         }
     }
-
 
     private void buscarEpisodio() {
         listarSeriesBuscadas();
@@ -152,9 +160,24 @@ public class MenuManager {
         }else{
             System.out.println("Serie não encontrada");
         }
-
-
     }
 
+    private void buscarSeriePorAtor() {
+        System.out.println("Qual serie para buscar por ator? ");
+        var nomeAtor = leitura.nextLine();
+        System.out.println("Minimo de avaliacões? ");
+        var avalicao = leitura.nextDouble();
+        List<Serie> serieEncontrada = repositorioSerie.findByAtoresContainsIgnoreCaseAndAvaliacaoGreaterThanEqual(nomeAtor, avalicao);
+//        System.out.println(serieEncontrada);
+
+        System.out.println("Séries e que " + nomeAtor + " trabalhador ");
+        serieEncontrada.forEach(s ->
+                System.out.println(s.getTitulo() + "avalicao: " + s.getAvaliacao()));
+    }
+
+    private void buscarTop5Series() {
+        List<Serie> serieTop = repositorioSerie.findTop5ByOrderByAvaliacao();
+        serieTop.forEach(System.out::println);
+    }
 
 }
