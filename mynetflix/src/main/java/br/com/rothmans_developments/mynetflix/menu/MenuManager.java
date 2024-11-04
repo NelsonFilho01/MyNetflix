@@ -46,8 +46,8 @@ public class MenuManager {
                     | 3-  Listar Series               |
                     | 4 - Buscar Seria por titulo     |
                     | 5 - Buscar Serie por Ator       |
-                    |                                 |
-                    |                                 |
+                    | 6 - Buscar por Categoria        |
+                    | 7 - Serie tem e Av              |
                     |                                 |
                     |                                 |
                     |                                 |
@@ -78,6 +78,12 @@ public class MenuManager {
                 case 5:
                     buscarSeriePorAtor();
                     break;
+                case 6:
+                    buscarEpisodioPorCategoria();
+                    break;
+                case 7:
+                    filtrarSeriesPorTemporadaEAvaliacao();
+                    break;
                 case 0:
                     System.out.println("Saindo ...");
                     break;
@@ -86,6 +92,7 @@ public class MenuManager {
             }
         }
     }
+
 
     private void buscarEpisodio() {
         listarSeriesBuscadas();
@@ -178,6 +185,31 @@ public class MenuManager {
     private void buscarTop5Series() {
         List<Serie> serieTop = repositorioSerie.findTop5ByOrderByAvaliacao();
         serieTop.forEach(System.out::println);
+    }
+
+    private void buscarEpisodioPorCategoria() {
+        System.out.println("Serie que categoria? ");
+
+        var nomeGenero = leitura.nextLine();
+        Categoria categoria = Categoria.fromPortugues(nomeGenero);
+        List<Serie> seriesPorCategoria = repositorioSerie.findByGenero(categoria);
+        System.out.println("Series por categorias " + nomeGenero);
+        seriesPorCategoria.forEach(System.out::println);
+
+    }
+
+    private void filtrarSeriesPorTemporadaEAvaliacao(){
+        System.out.println("Filtrar séries até quantas temporadas? ");
+        var totalTemporadas = leitura.nextInt();
+        leitura.nextLine();
+        System.out.println("Com avaliação a partir de que valor? ");
+        var avaliacao = leitura.nextDouble();
+        leitura.nextLine();
+        //List<Serie> filtroSeries = repositorioSerie.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(totalTemporadas, avaliacao);
+        List<Serie> filtroSeries = repositorioSerie.seriesPorTemporadaEAvaliacao();
+        System.out.println("*** Séries filtradas ***");
+        filtroSeries.forEach(s ->
+                System.out.println(s.getTitulo() + "  - avaliação: " + s.getAvaliacao()));
     }
 
 }
