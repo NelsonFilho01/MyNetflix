@@ -4,10 +4,7 @@ import br.com.rothmans_developments.mynetflix.model.*;
 import br.com.rothmans_developments.mynetflix.repository.SerieRepository;
 import br.com.rothmans_developments.mynetflix.service.ConsumoApi;
 import br.com.rothmans_developments.mynetflix.service.ConverteDados;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +27,8 @@ public class MenuManager {
 
     private List<Serie> series = new ArrayList<>();
 
+    private Optional<Serie> serieBuscada;
+
     public MenuManager(SerieRepository repositorioSerie) {
         this.repositorioSerie = repositorioSerie;
     }
@@ -48,6 +47,11 @@ public class MenuManager {
                     | 5 - Buscar Serie por Ator       |
                     | 6 - Buscar por Categoria        |
                     | 7 - Serie tem e Av              |
+                    | 8 - Busca serie por trecho      |
+                    | 9 - Episodios por data          |
+                    |                                 |
+                    |                                 |
+                    |                                 |
                     |                                 |
                     |                                 |
                     |                                 |
@@ -56,7 +60,7 @@ public class MenuManager {
                     """;
 
 
-            buscarTop5Series();
+            listarTop5Series();
             System.out.println(menu);
 
             opcao = leitura.nextInt();
@@ -84,6 +88,10 @@ public class MenuManager {
                 case 7:
                     filtrarSeriesPorTemporadaEAvaliacao();
                     break;
+                case 8:
+                    buscarEpisodioPorTrecho();
+                case 9:
+                    buscarEpisodioPorData();
                 case 0:
                     System.out.println("Saindo ...");
                     break;
@@ -92,6 +100,7 @@ public class MenuManager {
             }
         }
     }
+
 
 
     private void buscarEpisodio() {
@@ -161,7 +170,7 @@ public class MenuManager {
     private void buscarSeriePorTitulo() {
         System.out.println("Escolha uma série pelo nome: ");
         var nomeSerie = leitura.nextLine();
-        Optional<Serie> serieBuscada = repositorioSerie.findByTituloContainsIgnoreCase(nomeSerie);
+        serieBuscada = repositorioSerie.findByTituloContainsIgnoreCase(nomeSerie);
         if(serieBuscada.isPresent()) {
             System.out.println("Dados serie: " + serieBuscada.get());
         }else{
@@ -182,9 +191,12 @@ public class MenuManager {
                 System.out.println(s.getTitulo() + "avalicao: " + s.getAvaliacao()));
     }
 
-    private void buscarTop5Series() {
+    private void listarTop5Series() {
         List<Serie> serieTop = repositorioSerie.findTop5ByOrderByAvaliacao();
-        serieTop.forEach(System.out::println);
+        System.out.println("**********************");
+        serieTop.forEach(s ->
+                System.out.println(s.getTitulo() + "avalicao: " + s.getAvaliacao()));
+        System.out.println("**********************");
     }
 
     private void buscarEpisodioPorCategoria() {
@@ -206,10 +218,33 @@ public class MenuManager {
         var avaliacao = leitura.nextDouble();
         leitura.nextLine();
         //List<Serie> filtroSeries = repositorioSerie.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(totalTemporadas, avaliacao);
-        List<Serie> filtroSeries = repositorioSerie.seriesPorTemporadaEAvaliacao();
+        List<Serie> filtroSeries = repositorioSerie.seriesPorTemporadaEAvaliacao(totalTemporadas, avaliacao);
         System.out.println("*** Séries filtradas ***");
         filtroSeries.forEach(s ->
                 System.out.println(s.getTitulo() + "  - avaliação: " + s.getAvaliacao()));
     }
+
+    private void buscarEpisodioPorTrecho() {
+        System.out.println("Qual o trecho? ");
+        var nomeTrecho = leitura.nextLine();
+        List<Episodio> episodiosEncontrados = repositorioSerie.episodioPorTrecho(nomeTrecho);
+        episodiosEncontrados.forEach(System.out::println);
+    }
+
+    private void buscarEpisodioPorData() {
+        buscarSeriePorTitulo();
+        if(serieBuscada.isPresent()){
+            Serie serie = serieBuscada.get();
+            System.out.println("Digite o ano limite de lançamento");
+            var anoLancamento = leitura.nextInt();
+            leitura.nextLine();
+
+            List<Episodio> episodiosAno = repositorioSerie.episodiosPorSerieEAno(serie, anoLancamento);
+            episodiosAno.forEach(System.out::println);
+        }
+
+    }
+
+
 
 }
