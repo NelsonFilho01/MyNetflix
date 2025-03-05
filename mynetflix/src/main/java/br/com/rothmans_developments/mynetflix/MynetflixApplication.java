@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class MynetflixApplication implements CommandLineRunner {
+public class MynetflixApplication {
 
 	@Autowired
 	private SerieRepository repositorioSerie;
@@ -18,9 +18,4 @@ public class MynetflixApplication implements CommandLineRunner {
 		SpringApplication.run(MynetflixApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		MenuManager principal = new MenuManager(repositorioSerie);
-		principal.exibeMenu();
-	}
 }
