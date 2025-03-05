@@ -4,7 +4,7 @@ import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 
 public class ConsomeGPT {
-    public static String obterTraducao(String texto) {
+    public static String obterTraducaoGpt(String texto) {
         String token = System.getenv("DGPT_TOKEN");
 
         if (token == null || token.isEmpty()) {
@@ -15,7 +15,7 @@ public class ConsomeGPT {
 
         CompletionRequest requisicao = CompletionRequest.builder()
                 .model("gpt-3.5-turbo-instruct")
-                .prompt("traduza para o português o texto: " + texto)
+                .prompt("traduza par a o português o texto: " + texto)
                 .maxTokens(1000)
                 .temperature(0.7)
                 .build();

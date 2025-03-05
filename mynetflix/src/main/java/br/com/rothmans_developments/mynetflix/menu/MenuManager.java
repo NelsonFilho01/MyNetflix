@@ -38,33 +38,33 @@ public class MenuManager {
         var opcao = -1;
         while (opcao != 0) {
 
-            var menu = """
-                    |---------------------------------|
-                    | 1 - Buscar Serie                |
-                    | 2 - Buscar Episodio             |
-                    | 3-  Listar Series               |
-                    | 4 - Buscar Seria por titulo     |
-                    | 5 - Buscar Serie por Ator       |
-                    | 6 - Buscar por Categoria        |
-                    | 7 - Serie tem e Av              |
-                    | 8 - Busca serie por trecho      |
-                    | 9 - Episodios por data          |
-                    |                                 |
-                    |                                 |
-                    |                                 |
-                    |                                 |
-                    |                                 |
-                    |                                 |
-                    | 0 - Sair ...                    |
-                    |---------------------------------|
+            var menu = """                  
+                |-----------------------------------------------|
+                | 1 - Buscar séries                             |
+                | 2 - Buscar episódios                          |
+                | 3 - Listar séries buscadas                    |
+                | 4 - Buscar série por título                   |
+                | 5 - Buscar séries por ator                    |
+                | 6 - Top 5 Séries                              |
+                | 7 - Buscar séries por categoria               |
+                | 8 - Filtrar séries                            |
+                | 9 - Buscar episódios por trecho               |
+                | 10 - Top 5 episódios por série                |
+                | 11 - Buscar episódios a partir de uma data    |
+                |                                               |
+                |                                               |
+                |                                               |
+                |                                               |
+                |                                               |
+                | 0 - Sair                                      |
+                |-----------------------------------------------|
                     """;
 
 
-            listarTop5Series();
             System.out.println(menu);
 
             opcao = leitura.nextInt();
-            leitura.nextLine();
+                        leitura.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -73,7 +73,7 @@ public class MenuManager {
                 case 2:
                     buscarEpisodio();
                     break;
-                 case 3:
+                case 3:
                     listarSeriesBuscadas();
                     break;
                 case 4:
@@ -83,25 +83,49 @@ public class MenuManager {
                     buscarSeriePorAtor();
                     break;
                 case 6:
-                    buscarEpisodioPorCategoria();
+                    listarTop5Series();
                     break;
                 case 7:
-                    filtrarSeriesPorTemporadaEAvaliacao();
+                    buscarSeriesPorCategoria();
                     break;
                 case 8:
-                    buscarEpisodioPorTrecho();
+                    filtrarSeriesPorTemporadaEAvaliacao();
+                    break;
                 case 9:
+                    buscarEpisodioPorTrecho();
+                    break;
+                case 10:
+                    topEpisodiosPorSerie();
+                    break;
+                case 11:
                     buscarEpisodioPorData();
+                    break;
                 case 0:
-                    System.out.println("Saindo ...");
+                    System.out.println("Saindo...");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("Opção inválida");
             }
         }
     }
 
+    private void buscarSerie(){
+        DadosSerie dados = getDadosSerie();
+        Serie serie = new Serie(dados);
+        //dadosSeries.add(dados);
+        repositorioSerie.save(serie);
+        System.out.println(dados);
+    }
 
+    private DadosSerie getDadosSerie(){
+        System.out.println("Qual o nome da serie? ");
+        var nomeSerie = leitura.nextLine();
+
+        var json = consumoApi.obterDados(
+                ENDERECO + nomeSerie.replace(" ", "+") +API_KEY);
+        DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
+        return dados;
+    }
 
     private void buscarEpisodio() {
         listarSeriesBuscadas();
@@ -143,24 +167,6 @@ public class MenuManager {
         }
 }
 
-    private void buscarSerie(){
-        DadosSerie dados = getDadosSerie();
-        Serie serie = new Serie(dados);
-        //dadosSeries.add(dados);
-        repositorioSerie.save(serie);
-        System.out.println(dados);
-    }
-
-    private DadosSerie getDadosSerie(){
-        System.out.println("Qual o nome da serie? ");
-        var nomeSerie = leitura.nextLine();
-
-        var json = consumoApi.obterDados(
-                ENDERECO + nomeSerie.replace(" ", "+") +API_KEY);
-        DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
-        return dados;
-    }
-
     private void listarSeriesBuscadas() {
         series = repositorioSerie.findAll();
         series.stream().sorted(Comparator.comparing(Serie::getTitulo))
@@ -195,14 +201,14 @@ public class MenuManager {
         List<Serie> serieTop = repositorioSerie.findTop5ByOrderByAvaliacao();
         System.out.println("**********************");
         serieTop.forEach(s ->
-                System.out.println(s.getTitulo() + "avalicao: " + s.getAvaliacao()));
+                System.out.println(s.getTitulo() + " avalicao: " + s.getAvaliacao()));
         System.out.println("**********************");
     }
 
-    private void buscarEpisodioPorCategoria() {
+    private void buscarSeriesPorCategoria() {
         System.out.println("Serie que categoria? ");
-
         var nomeGenero = leitura.nextLine();
+
         Categoria categoria = Categoria.fromPortugues(nomeGenero);
         List<Serie> seriesPorCategoria = repositorioSerie.findByGenero(categoria);
         System.out.println("Series por categorias " + nomeGenero);
@@ -229,6 +235,18 @@ public class MenuManager {
         var nomeTrecho = leitura.nextLine();
         List<Episodio> episodiosEncontrados = repositorioSerie.episodioPorTrecho(nomeTrecho);
         episodiosEncontrados.forEach(System.out::println);
+    }
+
+    private void topEpisodiosPorSerie(){
+        buscarSeriePorTitulo();
+        if(serieBuscada.isPresent()){
+            Serie serie = serieBuscada.get();
+            List<Episodio> topEpisodios = repositorioSerie.topEpisodiosPorSerie(serie);
+            topEpisodios.forEach(e ->
+                    System.out.printf("Série: %s Temporada %s - Episódio %s - %s Avaliação %s\n",
+                            e.getSerie().getTitulo(), e.getTemporada(),
+                            e.getNumeroEpisodio(), e.getTitulo(), e.getAvaliacao()));
+        }
     }
 
     private void buscarEpisodioPorData() {

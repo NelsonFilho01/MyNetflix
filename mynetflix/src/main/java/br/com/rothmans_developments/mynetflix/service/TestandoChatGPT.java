@@ -14,7 +14,7 @@ public class TestandoChatGPT {
                     "A group of vigilantes set out to take down corrupt superheroes who abuse their superpowers."
             );
 
-            String enredoTraduzido = ConsomeGPT.obterTraducao(dadosSerie.enredo().trim());
+            String enredoTraduzido = ConsomeGPT.obterTraducaoGpt(dadosSerie.enredo().trim());
             System.out.println("Enredo Traduzido: " + enredoTraduzido);
         }
 

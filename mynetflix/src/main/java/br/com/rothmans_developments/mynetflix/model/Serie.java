@@ -27,6 +27,7 @@ import java.util.OptionalDouble;
 
     private String poster;
 
+    @Column(length = 2000)
     private String enredo;
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -41,7 +42,7 @@ import java.util.OptionalDouble;
         this.genero = Categoria.fromString(dadosSerie.genero().split(",")[0].trim());
         this.atores = dadosSerie.atores();
         this.poster = dadosSerie.poster();
-        this.enredo = ConsomeGPT.obterTraducao(dadosSerie.enredo().trim());
+        this.enredo = ConsomeGPT.obterTraducaoGpt(dadosSerie.enredo().trim());
     }
 
     public String getTitulo() {
