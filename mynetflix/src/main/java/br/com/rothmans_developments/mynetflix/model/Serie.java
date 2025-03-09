@@ -1,6 +1,6 @@
 package br.com.rothmans_developments.mynetflix.model;
 
-import br.com.rothmans_developments.mynetflix.service.ConsomeGPT;
+import br.com.rothmans_developments.mynetflix.util.ConsomeGPT;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

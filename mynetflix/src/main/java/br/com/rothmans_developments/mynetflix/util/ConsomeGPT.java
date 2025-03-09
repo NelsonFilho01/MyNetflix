@@ -1,4 +1,4 @@
-package br.com.rothmans_developments.mynetflix.service;
+package br.com.rothmans_developments.mynetflix.util;
 
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;

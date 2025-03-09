@@ -1,18 +1,39 @@
 package br.com.rothmans_developments.mynetflix.controller;
 
-import br.com.rothmans_developments.mynetflix.repository.SerieRepository;
+import br.com.rothmans_developments.mynetflix.dto.SerieDTO;
+import br.com.rothmans_developments.mynetflix.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
+@CrossOrigin(origins = "http://127.0.0.1:5501")
 @RestController
+@RequestMapping("/series")
 public class SerieController {
 
     @Autowired
-    private SerieRepository serieRepository;
+    private SerieService serieService;
 
-   @GetMapping("/series")
-   public String listaSeries() {
-       return "Serie lista";
-   }
+    @GetMapping
+    public List<SerieDTO> listaSeries() {
+        return serieService.obterSeries();
+    }
+
+    @GetMapping("/top5")
+    public List<SerieDTO> obterSeriesTop5() {
+        return serieService.obterTop5();
+    }
+    @GetMapping("/lancamentos")
+    public List<SerieDTO> obterLancamentos() {
+        return serieService.obterLancamentos();
+    }
+
+    @GetMapping("/{id}")
+    public SerieDTO obterPorId (@PathVariable Long id) {
+        return serieService.obterPorId(id);
+    }
+
+
 }

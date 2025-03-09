@@ -1,6 +1,6 @@
 package br.com.rothmans_developments.mynetflix.model;
+
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

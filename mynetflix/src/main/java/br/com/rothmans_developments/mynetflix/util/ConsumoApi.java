@@ -1,6 +1,4 @@
-package br.com.rothmans_developments.mynetflix.service;
-
-import br.com.rothmans_developments.mynetflix.model.DadosSerie;
+package br.com.rothmans_developments.mynetflix.util;
 
 import java.io.IOException;
 import java.net.URI;

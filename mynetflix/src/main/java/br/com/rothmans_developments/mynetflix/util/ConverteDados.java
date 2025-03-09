@@ -1,4 +1,4 @@
-package br.com.rothmans_developments.mynetflix.service;
+package br.com.rothmans_developments.mynetflix.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
