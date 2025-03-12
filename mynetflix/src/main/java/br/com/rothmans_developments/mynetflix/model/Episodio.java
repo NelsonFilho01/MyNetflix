@@ -39,10 +39,13 @@ public class Episodio {
             this.avaliacao = 0.0;
         }
         try {
-            this.dataLancamento = LocalDate.parse(dadosEpisodio.dataLancamento().toString());
-        } catch (NullPointerException ex1) {
-            this.dataLancamento = null;
-        } catch (DateTimeParseException ex2) {
+            String data = dadosEpisodio.dataLancamento();
+            if (data != null && !data.equalsIgnoreCase("N/A")) {
+                this.dataLancamento = LocalDate.parse(data);
+            } else {
+                this.dataLancamento = null;
+            }
+        } catch (DateTimeParseException ex) {
             this.dataLancamento = null;
         }
     }

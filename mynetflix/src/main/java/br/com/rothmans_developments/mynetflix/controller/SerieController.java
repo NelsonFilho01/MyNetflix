@@ -1,5 +1,6 @@
 package br.com.rothmans_developments.mynetflix.controller;
 
+import br.com.rothmans_developments.mynetflix.dto.EpisodioDTO;
 import br.com.rothmans_developments.mynetflix.dto.SerieDTO;
 import br.com.rothmans_developments.mynetflix.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,19 @@ public class SerieController {
         return serieService.obterPorId(id);
     }
 
+    @GetMapping("/{id}/temporadas/todas")
+    public List<EpisodioDTO> obterTodasTemporadas(@PathVariable Long id) {
+        return serieService.obterTodasTemporadas(id);
+    }
+
+    @GetMapping("/{id}/temporadas/{numero}")
+    public List<EpisodioDTO> obterTemporadasPorNumero(@PathVariable Long id, @PathVariable Integer numero) {
+        return serieService.obterTemporadasPorNumero(id, numero);
+    }
+
+    @GetMapping("/categoria/{categoria}")
+    public List<SerieDTO> obterPorCategoria(@PathVariable String categoria) {
+        return serieService.obterSeriesPorCategoria(categoria);
+    }
 
 }
